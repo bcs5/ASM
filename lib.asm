@@ -13,31 +13,20 @@ getchar:
 	int 16h
 	ret
 delchar:
-	mov al, 0x08				; backspace
+	mov al, 0x08					; backspace
 	call putchar
 	mov al, ' '
 	call putchar
-	mov al, 0x08				; backspace
+	mov al, 0x08					; backspace
 	call putchar
 	ret
 endl:
-	mov al, 0x0a				; line feed
+	mov al, 0x0a					; line feed
 	call putchar
-	mov al, 0x0d				; carriage return
+	mov al, 0x0d					; carriage return
 	call putchar
 	ret
-delay:
-	mov bp, 43690
-	.loop1:
-		mov si, 43690
-		.loop2:
-			dec si
-			cmp si, 0
-			jnz .loop2
-		dec bp
-		cmp bp, 0
-		jnz .loop1
-	ret
+
 ;	var al, *si;
 ;	lodsb(){
 ;		al = *si;
@@ -107,9 +96,9 @@ gets:							; mov di, string
 	xor cx, cx					; zerar contador
 	.loop1:
 		call getchar
-		cmp al, 0x08			; backspace
+		cmp al, 0x08				; backspace
 		je .backspace
-		cmp al, 0x0d			; carriage return
+		cmp al, 0x0d				; carriage return
 		je .done
 		cmp cl, 10				; string limit checker
 		je .loop1

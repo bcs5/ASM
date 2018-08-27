@@ -1,3 +1,7 @@
+; Crie um programa que receba como entrada um número N (N < 10^100) e que,
+; após a tecla “enter” ser pressionada, seu programa deverá
+; informar se o número N digitado é divisível por 9 ou não (basta imprimir “Sim” ou “Não”).
+
 org 0x7c00
 jmp 0x0000:main
 
@@ -170,7 +174,7 @@ main:
 		; prev + (digit * 10^n)
 		xor ah, ah
 		sub al, 48		; '9' - '0' = 9
-		mul cx			;	digit * 10^n
+		mul cx			; digit * 10^n
 		
 		pop bx		
 		add ax, bx

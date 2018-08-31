@@ -92,9 +92,9 @@ gets:							; mov di, string
 	xor cx, cx					; zerar contador
 	.loop1:
 		call getchar
-		cmp al, 0x08				; backspace
+		cmp al, 0x08			; backspace
 		je .backspace
-		cmp al, 0x0d				; carriage return
+		cmp al, 0x0d			; carriage return
 		je .done
 		cmp cl, 10				; string limit checker
 		je .loop1
@@ -149,6 +149,15 @@ strcmp:							; mov si, string1, mov di, string2
 	.equal:
 		stc
 		ret
+strcpy:
+	.loop1:
+		lodsb
+		stosb
+		cmp al, 0
+		je .endloop1
+		jmp .loop1
+	.endloop1:
+	ret
 main:
 	xor ax, ax
 	mov ds, ax

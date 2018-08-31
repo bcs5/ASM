@@ -59,14 +59,10 @@ reverse:						; mov si, string
 		push ax
 		jmp .loop1
 	.endloop1:
-	.loop2:						; remover string da stack
-		cmp cl, 0
-		je .endloop2
-		dec cl
+	.loop2: 					; remover string da stack				
 		pop ax
 		stosb
-		jmp .loop2
-	.endloop2:
+		loop .loop2
 	ret
 tostring:						; mov ax, int / mov di, string
 	push di
@@ -138,6 +134,21 @@ stoi:							; mov si, string
 		jmp .loop1
 	.endloop1:
 	ret
+strcmp:							; mov si, string1, mov di, string2
+	.loop1:
+		lodsb
+		cmp al, byte[di]
+		jne .notequal
+		cmp al, 0
+		je .equal
+		inc di
+		jmp .loop1
+	.notequal:
+		clc
+		ret
+	.equal:
+		stc
+		ret
 main:
 	xor ax, ax
 	mov ds, ax

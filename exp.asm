@@ -170,8 +170,10 @@ main:
   div bx
   
   cmp ax, 0
+  xchg ax, dx
   je .no_upper
   .with_upper:
+    xchg ax, dx
     push dx
     mov di, upper
     call tostring
@@ -199,9 +201,9 @@ main:
     call endl
     jmp end
   .no_upper:
-    xchg ax, dx
     mov di, lower
     call tostring
+    mov si, lower
     call prints
     call endl
 end:

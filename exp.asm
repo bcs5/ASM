@@ -150,22 +150,22 @@ main:
   cmp cx, 0
   je .endexp
   
-  .loop5:
+  .loop1:
     cmp cx, 5
-    jle .endloop5
+    jle .endloop1
     mul bx
     dec cx
-    jmp .loop5
-  .endloop5:
+    jmp .loop1
+  .endloop1:
   push ax
   mov ax, 1
-  .loop1:
+  .loop2:
     mul bx
-  loop .loop1
+  loop .loop2
   pop bx
   mul bx
   .endexp:
-  ;xor dx, dx
+
   mov bx, 10000
   div bx
   
@@ -194,10 +194,10 @@ main:
     loop .loop3
     
     mov cx, 4
-    .loop6:
+    .loop4:
       pop ax
       call putchar
-    loop .loop6
+    loop .loop4
     call endl
     jmp end
   .no_upper:

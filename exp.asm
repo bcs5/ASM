@@ -149,7 +149,8 @@ main:
   
   cmp cx, 0
   je .endexp
-  
+  ; b^e = b^(e-5) * (b^5), evitar overflow
+  ; exemplo : 9^9 = 9^(9-5) * 9^(5) = 6561 * 59049, ambos os fatores menores que 2 ^ 16
   .loop1:
     cmp cx, 5
     jle .endloop1
@@ -163,26 +164,28 @@ main:
     mul bx
   loop .loop2
   pop bx
-  mul bx
+  mul bx          ; obter b^e, fazendo a multiplicacao de b^(e-5) * (b^5)
   .endexp:
 
   mov bx, 10000
-  div bx
+  div bx              ; separar o numero em duas partes, a lower contém os 4 digitos menos significativos
   
-  cmp ax, 0
-  xchg ax, dx
+  cmp ax, 0           ; verificar se existe upper
+  xchg ax, dx         ; ax = lower, dx = upper
   je .no_upper
   .with_upper:
     xchg ax, dx
     push dx
+    
+    ; printar upper
     mov di, upper
     call tostring
     mov si, upper
     call prints
     
+    ; printar lower
     pop ax
-    mov cx, 4
-    mov di, lower
+    mov cx, 4         
     .loop3:
       xor dx, dx
       mov bx, 10
@@ -201,6 +204,7 @@ main:
     call endl
     jmp end
   .no_upper:
+    ; printar lower, caso não haja upper
     mov di, lower
     call tostring
     mov si, lower

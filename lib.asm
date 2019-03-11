@@ -170,10 +170,9 @@ strcpy:
   ret
   
 main:
-	xor ax, ax
-	mov ds, ax
-	mov es, ax
-	
+  xor ax, ax
+  mov ds, ax
+  mov es, ax
 times 510-($-$$) db 0
 dw 0xaa55
 

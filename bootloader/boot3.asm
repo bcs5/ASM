@@ -1,6 +1,5 @@
 jmp 0x7e0:main
 data:
-  string times 62*512 db 0
   msg db "boot 3...", 0
 ; calls
 putchar:

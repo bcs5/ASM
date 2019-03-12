@@ -47,7 +47,7 @@ main:
   call endl
   
 set_es:
-  mov ax, 0x7e0        ; (0x7e<<1) = 0x7e0
+  mov ax, 0x7e0       ; (0x7e*16) = 0x7e0
   mov es, ax
   jmp reset
 reset:                ; INT 13h AH=00h: Reset Disk Drive
@@ -59,13 +59,13 @@ reset:                ; INT 13h AH=00h: Reset Disk Drive
 load:                 ; INT 13h AH=02h: Read Sectors From Drive
   mov ah, 02h
   mov al, 63          ; Sectors To Read Count
-  mov ch, 0           ; Cylinder 0
-  mov cl, 18          ; Sector 6
-  mov dh, 1           ; Head ;headers has 18 sectors
+  mov ch, 0           ; Cylinder
+  mov cl, 18          ; Sector
+  mov dh, 1           ; Head
   mov dl, 0           ; Drive
-  xor bx, bx          ; posição = (es<<1)+bx                    ; es:bx Buffer Address Pointer
+  xor bx, bx          ; posição = (es*16)+bx, es:bx Buffer Address Pointer
   int 13h
   jc load             ; if failed, try again
-  jmp 0x7e0:0x0        ; jump to 0x7e0
+  jmp 0x7e0:0x0       ; jump to 0x7e0
 jmp $
-times 33*512-($-$$) db 0
+times 34*512-($-$$) db 0

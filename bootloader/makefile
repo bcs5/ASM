@@ -5,7 +5,7 @@ boot1_size = 1
 
 boot2_file = boot2
 boot2_pos = 1
-boot2_size = 33
+boot2_size = 34
 
 boot3_file = boot3
 boot3_pos = 35
@@ -17,7 +17,7 @@ block_size = 512
 disk_size = 128
 
 
-all: create_disk boot1 boot2 boot3 write_boot1 write_boot2 write_boot3 launch clean
+all: create_disk boot1 boot2 boot3 write_boot1 write_boot3 write_boot2 launch clean
 create_disk:
 	@dd if=/dev/zero of=$(boot_disk) bs=$(block_size) count=$(disk_size) status=noxfer
 

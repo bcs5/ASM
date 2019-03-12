@@ -54,6 +54,7 @@ prints:             ; mov si, string
 main:
   mov ax, 0x7e0
   mov ds, ax
+  mov es, ax
   mov si, msg
   call prints
   call endl

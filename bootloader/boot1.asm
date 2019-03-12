@@ -33,12 +33,13 @@ delay:              ; 1 SEC DELAY
 main:
   mov ax, 0x7c0
   mov ds, ax
+  mov es, ax
   mov si, msg
   call prints
   call endl
   call delay
 set_es:
-  mov ax, 0x50        ; (0x50<<1) = 0x500
+  mov ax, 0x50        ; (0x50*16) = 0x500
   mov es, ax
   jmp reset
 reset:                ; INT 13h AH=00h: Reset Disk Drive
@@ -49,12 +50,12 @@ reset:                ; INT 13h AH=00h: Reset Disk Drive
   jmp load
 load:                 ; INT 13h AH=02h: Read Sectors From Drive
   mov ah, 02h
-  mov al, 33          ; Sectors To Read Count
+  mov al, 34          ; Sectors To Read Count
   mov ch, 0           ; Cylinder
   mov cl, 2           ; Sector
   mov dh, 0           ; Head
   mov dl, 0           ; Drive
-  xor bx, bx          ; posição = (es<<1)+bx                    ; es:bx Buffer Address Pointer
+  xor bx, bx          ; posição = (es*16)+bx, es:bx Buffer Address Pointer
   int 13h
   jc load             ; if failed, try again
   jmp 0x50:0x0        ; jump to 0x500

@@ -168,11 +168,60 @@ strcpy:
     jmp .loop1
   .endloop1:
   ret
+
+print_dots:              ; mov cx, number of dots
+  for:
+    mov al, '.'
+    call putchar
+    push cx
+    call delay100ms
+    call delay100ms
+    pop cx
+    loop for
+  ret
+  
+delay1s:                 ; 1 SEC DELAY
+  mov cx, 0fh
+  mov dx, 4240h
+  mov ah, 86h
+  int 15h
+  ret
+
+delay100ms:              ; 0.1 SEC DELAY
+  mov cx, 01h
+  mov dx, 86a0h
+  mov ah, 86h
+  int 15h
+  ret
+
+clear:                   ; mov bl, color
+  ; set the cursor to top left-most corner of screen
+  mov dx, 0 
+  mov bh, 0      
+  mov ah, 0x2
+  int 0x10
+
+  ; print 2000 blank chars to clean  
+  mov cx, 2000 
+  mov bh, 0
+  mov al, 0x20 ; blank char
+  mov ah, 0x9
+  int 0x10
+  
+  ; reset cursor to top left-most corner of screen
+  mov dx, 0 
+  mov bh, 0      
+  mov ah, 0x2
+  int 0x10
+  ret
   
 main:
   xor ax, ax
   mov ds, ax
   mov es, ax
+  mov cx, 20
+  call print_dots
+  call endl
 times 510-($-$$) db 0
 dw 0xaa55
 

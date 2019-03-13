@@ -28,18 +28,6 @@ endl:
   call putchar
   ret
 
-;  var al, *si;
-;  lodsb(){
-;    al = *si;
-;    si++;
-;  }
-
-;    var al, *di;
-;    stosb(){
-;        *di = al;
-;        di++;
-;    }
-
 prints:             ; mov si, string
   .loop:
     lodsb           ; bota character em al
@@ -49,11 +37,36 @@ prints:             ; mov si, string
     jmp .loop
   .endloop:
   ret
+  
+clear:                    ; mov bl, color
+  ; Set the cursor to top left-most corner of screen
+  mov dx, 0 
+  mov bh, 0      
+  mov ah, 0x2
+  int 0x10
+
+  ; print 2000 blanck chars to clean  
+  mov cx, 2000 
+  mov bh, 0
+  mov al, 0x20 ; blank char
+  mov ah, 0x9
+  int 0x10
+  
+  ; reset cursor to top left-most corner of screen
+  mov dx, 0 
+  mov bh, 0      
+  mov ah, 0x2
+  int 0x10
+  ret
 
 main:
   mov ax, 0x7e0
   mov ds, ax
   mov es, ax
+  
+  mov bl, 12 ; Seta cor dos caracteres para verde
+  call clear
+  
   mov si, msg
   call prints
   call endl

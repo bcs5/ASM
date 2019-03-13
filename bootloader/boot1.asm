@@ -23,9 +23,16 @@ prints:             ; mov si, string
   .endloop:
   ret
 
-delay:              ; 1 SEC DELAY
+delay1s:                 ; 1 SEC DELAY
   mov cx, 0fh
   mov dx, 4240h
+  mov ah, 86h
+  int 15h
+  ret
+
+delay100ms:              ; 0.1 SEC DELAY
+  mov cx, 01h
+  mov dx, 86a0h
   mov ah, 86h
   int 15h
   ret
@@ -37,7 +44,7 @@ main:
   mov si, msg
   call prints
   call endl
-  call delay
+  call delay1s
 set_es:
   mov ax, 0x50        ; (0x50*16) = 0x500
   mov es, ax
